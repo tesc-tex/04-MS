@@ -15,21 +15,19 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container: isagila/latex:latest
 
     steps:
       - uses: actions/checkout@v3
 
-      - name: Build PDF
-        uses: xu-cheng/latex-action@v2
-        with:
-          root_file: main.tex
-          latexmk_shell_escape: true
+      - name: Build PDF 
+        run: ./build.sh
 
       - name: Upload pages artifact
         uses: actions/upload-artifact@master
         with:
           name: ${{ env.SEMESTER}}_${{ env.SUBJECT }}.pdf
-          path: main.pdf
+          path: ./build/main.pdf
           if-no-files-found: error
 
   deploy:
